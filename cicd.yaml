@@ -31,4 +31,4 @@ jobs:
         # Commands to publish website on port 82
         sudo cp -r ./build/* /var/www/html/
         sudo systemctl restart apache2
-
+        sudo systemctl status apache2
