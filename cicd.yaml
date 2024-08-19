@@ -1,0 +1,34 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14' # Adjust based on your needs
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build the product
+      run: npm run build
+
+    - name: Deploy to production
+      if: github.ref == 'refs/heads/master'
+      run: |
+        # Commands to publish website on port 82
+        sudo cp -r ./build/* /var/www/html/
+        sudo systemctl restart apache2
+
